@@ -1,0 +1,39 @@
+<h1>Todo Tasks</h1>
+
+<a href="{% url 'task_create' %}">Add New Task</a>
+
+<form method="get">
+    Status:
+    <select name="status">
+        <option value="">All</option>
+        <option value="pending">Pending</option>
+        <option value="complete">Complete</option>
+    </select>
+    Priority:
+    <select name="priority">
+        <option value="">All</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<ul>
+    {% for task in tasks %}
+        <li>
+            {% if task.completed %}
+                <s>{{ task.title }}</s>
+            {% else %}
+                {{ task.title }}
+            {% endif %}
+            - {{ task.priority }}
+            - {{ task.deadline }}
+            <a href="{% url 'task_toggle' task.pk %}">Toggle Complete</a>
+            <a href="{% url 'task_update' task.pk %}">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No tasks yet.</li>
+    {% endfor %}
+</ul>
